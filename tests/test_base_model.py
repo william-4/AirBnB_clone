@@ -20,7 +20,8 @@ class TestDocumentation(TestCase):
 
     def test_methods_docs(self):
         """Tests for the presence of the BaseModel doc string"""
-        callables = [func for func in dir(base_class) if callable(getattr(base_class, func))][22:]
+        callables = [func for func in dir(base_class) if callable(
+                    getattr(base_class, func))][22:]
         for func in callables:
             self.assertTrue(len(func.__doc__) > 0)
 
