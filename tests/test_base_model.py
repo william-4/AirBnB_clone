@@ -3,6 +3,7 @@
 """
 from unittest import TestCase
 import models.base_model
+import re
 
 base_class = models.base_model.BaseModel
 
@@ -24,6 +25,17 @@ class TestDocumentation(TestCase):
                     getattr(base_class, func))][22:]
         for func in callables:
             self.assertTrue(len(func.__doc__) > 0)
+
+    def test_datetime_format(self):
+        """Verifies the format of the datetime"""
+        datetime_pattern = re.compile(r'(?:20\d{2})-(?:0[1-9]|1[012])-'
+                                      r'(?:0[1-9]|[12]\d|3[01])T'
+                                      r'(?:[01]\d|2[0-3]):(?:[0-5]\d):'
+                                      r'(?:[0-5]\d)\.\d{6}'
+        )
+        base_model_instance = base_class()
+        base_dict = base_model_instance.to_dict()
+        self.assertTrue(datetime_pattern.match(base_dict['created_at']))
 
 
 if __name__ == '__main__':
