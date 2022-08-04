@@ -33,17 +33,17 @@ class Test_Task3(TestCase):
         datetime_pattern = re.compile(r'(?:20\d{2})-(?:0[1-9]|1[012])-'
                                       r'(?:0[1-9]|[12]\d|3[01])T'
                                       r'(?:[01]\d|2[0-3]):(?:[0-5]\d):'
-                                      r'(?:[0-5]\d)\.\d{6}'
-        )
+                                      r'(?:[0-5]\d)\.\d{6}')
         base_model_instance = base_class()
         base_dict = base_model_instance.to_dict()
         self.assertTrue(datetime_pattern.match(base_dict['created_at']))
+
 
 class Test_Task4(TestCase):
     """Tests for task 4"""
 
     def test_created_at(self):
-        """Verifies the type of the attribute created_at"""
+        """Verifies the type of the attribute created_at type"""
         my_model = base_class()
         self.assertTrue(isinstance(my_model.created_at, datetime))
         my_model_json = my_model.to_dict()
@@ -52,7 +52,7 @@ class Test_Task4(TestCase):
         self.assertTrue(isinstance(my_new_model.created_at, datetime))
 
     def test_updated_at(self):
-        """Verifies the type of the attribute updated_at"""
+        """Verifies the type of the attribute updated_at type"""
         my_model = base_class()
         self.assertTrue(isinstance(my_model.updated_at, datetime))
         my_model_json = my_model.to_dict()
@@ -66,14 +66,6 @@ class Test_Task4(TestCase):
         my_model_json = my_model.to_dict()
         my_new_model = base_class(**my_model_json)
         self.assertFalse(my_model is my_new_model)
-
-class Test_Task5(TestCase):
-
-        
-
-    
-        
-
 
 
 if __name__ == '__main__':
