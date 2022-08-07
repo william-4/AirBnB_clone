@@ -8,9 +8,9 @@ from models import storage
 
 
 def parse(arg):
-    l = arg.split(" ")
-    if l[0]:
-        return l
+    lists = arg.split(" ")
+    if lists[0]:
+        return lists
     return []
 
 
@@ -38,6 +38,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) >= 1:
             if args[0] in HBNBCommand.__models:
                 print(eval(args[0])().id)
+                storage.save()
             else:
                 print("** class doesn't exist **")
         else:
@@ -50,10 +51,11 @@ class HBNBCommand(cmd.Cmd):
         objects = storage.all()
         if len(args) >= 1:
             if args[0] in HBNBCommand.__models:
-                if len(args) >= 2 :
+                if len(args) >= 2:
                     key = "{}.{}".format(args[0], args[1])
                     if key in objects:
                         print(objects[key])
+                        storage.save()
                     else:
                         print("** no instance found **")
                 else:
@@ -83,7 +85,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
 
-    def do_all(slef, arg):
+    def do_all(self, arg):
         """Prints all string representation of all instances
         based or not on the class name"""
         args = parse(arg)
@@ -91,14 +93,40 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             objects_list = []
-            for obj in storage.all().value():
-                if len(args) > 0 and args[0] == obj.__class__.__name__:
-                    objects_list.append(obj.__str__())
+            for obj in storage.all().values():
+                if len(args) > 0 and args[0] == type(obj).__name__:
+                    objects_list.append(str(obj))
                 elif len(args) == 0:
-                    objects_list.append(obj.__str__())
+                    objects_list.append(str(obj))
             print(objects_list)
 
-
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id
+        by adding or updating attribute"""
+        args = parse(arg)
+        objects = storage.all()
+        if len(args) > 0:
+            if args[0] in HBNBCommand.__models:
+                if len(args) >= 2:
+                    key = "{}.{}".format(args[0], args[1])
+                    if key in objects:
+                        if len(args) >= 3:
+                            if len(args) == 4:
+                                setattr(objects[key], args[2], str(args[3]))
+                                # objects[key].args[2] = args[3]
+                                storage.save()
+                            else:
+                                print("** value missing **")
+                        else:
+                            print("** attribute name missing **")
+                    else:
+                        print("** no instance found **")
+                else:
+                    print("** instance id missing **")
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
 
 
 if __name__ == '__main__':
