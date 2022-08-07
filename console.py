@@ -5,6 +5,12 @@ import sys
 from models.base_model import BaseModel
 import json
 from models import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 def parse(arg):
@@ -17,7 +23,9 @@ def parse(arg):
 class HBNBCommand(cmd.Cmd):
     """The console of our program"""
     prompt = '(hbnb) '
-    __models = ["BaseModel"]
+    __models = ["BaseModel", "User",
+                "Place", "State", "City",
+                "Amenity", "Review"]
 
     def do_EOF(self, arg):
         """Handles the EOF character"""
