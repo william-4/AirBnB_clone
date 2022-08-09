@@ -31,7 +31,8 @@ class HBNBCommand(cmd.Cmd):
         commands = {
                 "all": self.do_all,
                 "count": self.count,
-                "show": self.do_show
+                "show": self.do_show,
+                "destroy": self.do_destroy
         }
         dot_usage = re.search(r'\.', arg)
         if dot_usage is not None:
