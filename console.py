@@ -30,7 +30,8 @@ class HBNBCommand(cmd.Cmd):
         """Defines the default behaviour when the command is invalid"""
         commands = {
                 "all": self.do_all,
-                "count": self.count
+                "count": self.count,
+                "show": self.do_show
         }
         dot_usage = re.search(r'\.', arg)
         if dot_usage is not None:
