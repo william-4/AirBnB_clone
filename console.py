@@ -29,7 +29,8 @@ class HBNBCommand(cmd.Cmd):
     def default(self, arg):
         """Defines the default behaviour when the command is invalid"""
         commands = {
-                "all": self.do_all
+                "all": self.do_all,
+                "count": self.count
         }
         dot_usage = re.search(r'\.', arg)
         if dot_usage is not None:
@@ -123,6 +124,20 @@ class HBNBCommand(cmd.Cmd):
                 elif len(args) == 0:
                     objects_list.append(str(obj))
             print(objects_list)
+
+    def count(self, arg):
+        """A function that counts instances of a model"""
+        args = parse(arg)
+        if len(args) > 0 and args[0] not in HBNBCommand.__models:
+            print("** class doesn't exist **")
+        else:
+            objects_list = []
+            for obj in storage.all().values():
+                if len(args) > 0 and args[0] == type(obj).__name__:
+                    objects_list.append(str(obj))
+                elif len(args) == 0:
+                    objects_list.append(str(obj))
+            print(len(objects_list))
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id
