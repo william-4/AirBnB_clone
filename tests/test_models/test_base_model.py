@@ -81,8 +81,20 @@ class TestBaseModel_instantiation(TestCase):
             BaseModel(id=None, created_at=None, updated_at=None)
 
 
-class TestBaseModel_datetime_format(TestCase):
-    """Tests the format of the datetime used by BaseModel"""
+class TestBaseModel_representation(TestCase):
+    """Tests the representation used by BaseModel"""
+
+    def test_str_representation(self):
+        dt = datetime.today()
+        dt_repr = repr(dt)
+        bm = BaseModel()
+        bm.id = "123456789"
+        bm.created_at = bm.updated_at = dt
+        bmstr = bm.__str__()
+        self.assertIn("[BaseModel] (123456789)", bmstr)
+        self.assertIn("'id': '123456789'", bmstr)
+        self.assertIn("'created_at': " + dt_repr, bmstr)
+        self.assertIn("'updated_at': " + dt_repr, bmstr)
 
     def test_datetime_format(self):
         """Verifies the format of the datetime"""
@@ -190,7 +202,6 @@ class TestBaseModel_to_dict(TestCase):
         bm = BaseModel()
         with self.assertRaises(TypeError):
             bm.to_dict(None)
-
 
 
 if __name__ == "__main__":
