@@ -11,13 +11,12 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from shlex import split
+import re
 
 
 def parse(arg):
-    lists = arg.split(" ")
-    if lists[0]:
-        return lists
-    return []
+    return split(arg)
 
 
 class HBNBCommand(cmd.Cmd):
@@ -27,14 +26,31 @@ class HBNBCommand(cmd.Cmd):
                 "Place", "State", "City",
                 "Amenity", "Review"]
 
+    def default(self, arg):
+        """Defines the default behaviour when the command is invalid"""
+        commands = {
+                "all": self.do_all
+        }
+        dot_usage = re.search(r'\.', arg)
+        if dot_usage is not None:
+            args = [arg[:dot_usage.span()[0]], arg[dot_usage.span()[1]:]]
+            brackets = re.search(r'\((.*?)\)', args[1])
+            if brackets is not None:
+                command = [args[1][:brackets.span()[0]], brackets.group()[1:-1]]
+                if command[0] in commands.keys():
+                    arguments = "{} {}".format(args[0], command[1])
+                    return commands[command[0]](arguments)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
     def do_EOF(self, arg):
         """Handles the EOF character"""
         print()
-        quit()
+        return True
 
     def do_quit(self, arg):
         """Quit command to exit the program\n"""
-        quit()
+        return True
 
     def emptyline(self):
         """Overriding the default emptyline method"""
