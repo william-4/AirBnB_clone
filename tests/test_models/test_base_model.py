@@ -114,6 +114,24 @@ class TestBaseModel_save(TestCase):
         except IOError:
             pass
 
+    def test_one_save(self):
+        bm = BaseModel()
+        sleep(0.05)
+        first_updated_at = bm.updated_at
+        bm.save()
+        self.assertLess(first_updated_at, bm.updated_at)
+
+    def test_two_saves(self):
+        bm = BaseModel()
+        sleep(0.05)
+        first_updated_at = bm.updated_at
+        bm.save()
+        self.assertLess(first_updated_at, bm.updated_at)
+        second_updated_at = bm.updated_at
+        sleep(0.05)
+        bm.save()
+        self.assertLess(second_updated_at, bm.updated_at)
+
     def test_save_args(self):
         bm = BaseModel()
         with self.assertRaises(TypeError):
@@ -125,6 +143,54 @@ class TestBaseModel_save(TestCase):
         bmid = "BaseModel." + bm.id
         with open("file.json", "r") as f:
             self.assertIn(bmid, f.read())
+
+
+class TestBaseModel_to_dict(TestCase):
+    """Tests the to_dict method of BaseMode"""
+
+    def test_to_dict_type(self):
+        bm = BaseModel()
+        self.assertTrue(isinstance(bm.to_dict(), dict))
+
+    def test_to_dict_keys(self):
+        bm = BaseModel()
+        self.assertIn("id", bm.to_dict())
+        self.assertIn("updated_at", bm.to_dict())
+        self.assertIn("__class__", bm.to_dict())
+        self.assertIn("created_at", bm.to_dict())
+        bm.name = "betty"
+        bm.my_number = 98
+        self.assertIn("name", bm.to_dict())
+        self.assertIn("my_number", bm.to_dict())
+
+    def test_to_dict_datetime_attributes_are_strs(self):
+        bm = BaseModel()
+        bm_dict = bm.to_dict()
+        self.assertTrue(isinstance(bm_dict["created_at"], str))
+        self.assertTrue(isinstance(bm_dict["updated_at"], str))
+
+    def test_to_dict_output(self):
+        dt = datetime.today()
+        bm = BaseModel()
+        bm.id = "123456"
+        bm.created_at = bm.updated_at = dt
+        tdict = {
+            'id': '123456',
+            '__class__': 'BaseModel',
+            'created_at': dt.isoformat(),
+            'updated_at': dt.isoformat()
+        }
+        self.assertDictEqual(bm.to_dict(), tdict)
+
+    def test_contrast_to_dict_and_dict(self):
+        bm = BaseModel()
+        self.assertNotEqual(bm.to_dict(), bm.__dict__)
+
+    def test_to_dict_with_arg(self):
+        bm = BaseModel()
+        with self.assertRaises(TypeError):
+            bm.to_dict(None)
+
 
 
 if __name__ == "__main__":
