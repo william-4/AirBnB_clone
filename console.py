@@ -16,7 +16,19 @@ import re
 
 
 def parse(arg):
-    return split(arg)
+    curly_braces = re.search(r'\{(.*?)\}', arg)
+    brackets = re.search(r'\[(.*?)\]', arg)
+    if curly_braces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            args = [i.strip(",") for i in split(arg[:brackets.span()[0]])]
+            args.append(brackets.group())
+            return args
+    else:
+        args = [i.strip(",") for i in split(arg[:curly_braces.span()[0]])]
+        args.append(curly_braces.group())
+        return args
 
 
 class HBNBCommand(cmd.Cmd):
@@ -32,7 +44,8 @@ class HBNBCommand(cmd.Cmd):
                 "all": self.do_all,
                 "count": self.count,
                 "show": self.do_show,
-                "destroy": self.do_destroy
+                "destroy": self.do_destroy,
+                "update": self.do_update
         }
         dot_usage = re.search(r'\.', arg)
         if dot_usage is not None:
@@ -154,7 +167,10 @@ class HBNBCommand(cmd.Cmd):
                         if len(args) >= 3:
                             if len(args) == 4:
                                 setattr(objects[key], args[2], str(args[3]))
-                                # objects[key].args[2] = args[3]
+                                storage.save()
+                            elif type(eval(args[2])) is dict:
+                                for k, v in eval(args[2]).items():
+                                    setattr(objects[key], k, v)
                                 storage.save()
                             else:
                                 print("** value missing **")
