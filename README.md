@@ -1,6 +1,6 @@
 # AirBnB_Clone
 
-![image](https://imgur.com/8AFBO3N)
+![image](https://imgur.com/8AFBO3N.png)
 
 ## Description
 
