@@ -1,0 +1,7 @@
+/* header styles - task 2 */
+header {
+	position: absolute;
+	height: 70px;
+	width: 100%;
+	background: red;
+}

@@ -1,0 +1,10 @@
+/* Global Styles - task 2 */
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+.page-container {
+	position: relative;
+	min-height: 100vh;
+}
