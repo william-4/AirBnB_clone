@@ -1,12 +1,14 @@
 /* Footer styles - task 3 */
 footer {
-	position: absolute;
-	bottom: 0;
+	position: relative;
+	background-color: white;
+	bottom: 0 !important;
+	margin-top: 20px;
 	height: 60px;
 	width: 100%;
-	border: 1px #CCCCCC;
-	border-style: solid none none;
+	border-top: 1px solid #CCCCCC;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	display: flex;
+	/*margin-top: calc(100vh - 234px);*/
 }
