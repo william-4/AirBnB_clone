@@ -1,5 +1,9 @@
-/* Global Styles - task 2 */
-body {
-	margin: 0px;
-	padding: 0px;
+/* CSS file used for common tasks */
+body{
+	margin: 0;
+	padding: 0;
+}
+header, footer {
+	width: 100%;
+	position: fixed; /* ensures the section position is fixed in all viewports */
 }

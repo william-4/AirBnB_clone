@@ -1,14 +1,10 @@
-/* Footer styles - task 3 */
+/* CSS file used to style the footer */
 footer {
-	position: relative;
 	background-color: white;
-	bottom: 0 !important;
-	margin-top: 20px;
-	height: 60px;
+	height: 60px; /* sets the height of the footer section */
 	width: 100%;
+	position: fixed;
+	bottom: 0; /* gives the section a bottom margin of 0 */
 	border-top: 1px solid #CCCCCC;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/*margin-top: calc(100vh - 234px);*/
+	text-align: center;
 }

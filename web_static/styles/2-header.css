@@ -1,6 +1,7 @@
-/* header styles - task 2 */
+/* CSS file used in styling the header*/
+
 header {
+	background-color: #FF0000
 	height: 70px;
-	width: 100%;
-	background: #FF0000;
+	top: 0;
 }

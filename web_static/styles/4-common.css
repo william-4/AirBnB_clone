@@ -1,14 +1,17 @@
-/* Global Styles - task 4 */
+/* CSS file used for common tasks */
 body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
+	color: #484848;
 	font-size: 14px;
-	font-family: Circular, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	height: 100vh;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	
 }
 
 .container {
 	max-width: 1000px;
-	margin: 30px auto;
-	min-height: calc(100vh - 192px);
+	margin-top: ;
+	margin-bottom: ;
+	height: 50px;
+	background-color: red;
 }
