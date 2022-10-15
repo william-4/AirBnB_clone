@@ -1,9 +1,11 @@
 /* CSS file used to style the footer */
 footer {
-	background-color: #00FF00;
-	height: 60px; /* sets the height of the footer section */
-	bottom: 0; /* gives the section a bottom margin of 0 */
+    background-color: #00FF00;
+    width: 100%;
+    height: 60px; /* sets the height of the footer section */
+    position: fixed;
+    bottom: 0; /* gives the section a bottom margin of 0 */
 }
 footer p {
-	text-align: center;
+    text-align: center;
 }

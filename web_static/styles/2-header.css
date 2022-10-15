@@ -1,7 +1,7 @@
 /* CSS file used in styling the header*/
 
 header {
-	background-color: #FF0000
-	height: 70px;
-	top: 0;
+    background-color: #FF0000;
+    height: 70px;
+    width: 100%;
 }
