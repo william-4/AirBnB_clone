@@ -11,8 +11,13 @@ from models.place import Place
 from models.review import Review
 
 
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
+
 class FileStorage:
-    """A class that serializes and deserializes instances to JSON file
+    """A class that serializes instances to and deserializes
+    instances from a JSON file
     """
     __file_path = "file.json"
     __objects = {}
@@ -28,17 +33,22 @@ class FileStorage:
             FileStorage.__objects[key] = obj
 
     def save(self):
-        """Serializes __objects to the JSON file file.json"""
-        with open(FileStorage.__file_path, "w") as f:
-            new_d = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
-            json.dump(new_d, f, indent=4)
+        """Serializes __objects to the JSON file file.json
+        1. convert the values stored in __objects to dictionaries
+        2. open file and dump the dictionary __objects
+        """
+        json_objects = {}
+        for key in self.__objects:
+            json_objects[key] = self.__objects[key].to_dict()
+        with open(self.__file_path, 'w') as f:
+            json.dump(json_objects, f)
 
     def reload(self):
         """Deserializes the JSON file to __objects"""
-        try:
-            with open(FileStorage.__file_path, "r") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    FileStorage.__objects[key] = value
-        except FileNotFoundError:
-            pass
+# try:
+        with open(self.__file_path, "r") as f:
+            jo = json.load(f)
+
+        for key in jo:
+            self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+# except:

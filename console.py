@@ -2,17 +2,17 @@
 """Entry point to our command interpreter"""
 import cmd
 import sys
-from models.base_model import BaseModel
 import json
+import re
+from shlex import split
 from models import storage
+from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from shlex import split
-import re
 
 
 def parse(arg):
@@ -52,7 +52,8 @@ class HBNBCommand(cmd.Cmd):
             args = [arg[:dot_usage.span()[0]], arg[dot_usage.span()[1]:]]
             brackets = re.search(r'\((.*?)\)', args[1])
             if brackets is not None:
-                command = [args[1][:brackets.span()[0]], brackets.group()[1:-1]]
+                command = [args[1][:brackets.span()[0]],
+                           brackets.group()[1:-1]]
                 if command[0] in commands.keys():
                     arguments = "{} {}".format(args[0], command[1])
                     return commands[command[0]](arguments)

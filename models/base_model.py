@@ -5,20 +5,22 @@ from datetime import datetime
 import uuid
 import models
 
+time = "%Y-%m-%dT%H:%M:%S.%f"
+
 
 class BaseModel:
-    """It defines all the common attributes for other classes"""
+    """It defines all the common attributes and methods for other classes"""
 
     def __init__(self, *args, **kwargs):
+        """Initialization of the base model"""
         if kwargs:
             for key, value in kwargs.items():
-                if key in ["created_at", "updated_at"]:
-                    pttrn = "%Y-%m-%dT%H:%M:%S.%f"
-                    setattr(self, key, datetime.strptime(value, pttrn))
-                elif key == "__class__":
-                    setattr(self, key, type(self))
-                else:
+                if key != "__class__":
                     setattr(self, key, value)
+            if hasattr(self, "created_at") and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], time)
+            if hasattr(self, "updated_at") and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
